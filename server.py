@@ -2,7 +2,10 @@ import socket, threading
 
 # Global variable that mantain client's connections
 connections = []
-
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
 def handle_user_connection(connection: socket.socket, address: str) -> None:
     '''
         Get user connection in order to keep receiving their messages and
@@ -70,7 +73,7 @@ def server() -> None:
         Main process that receive client's connections and start a new thread
         to handle their messages
     '''
-    SERVER_ADDRESS = socket.gethostbyname(socket.gethostname())
+    SERVER_ADDRESS = get_ip_address()
 
     LISTENING_PORT = 12000
     
